@@ -6,6 +6,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Button android:id="@+id/bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Test RxPermission requestEach"/>
+
+        <Button android:id="@+id/bt0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Test RxPermission request"/>
+
         <Button android:id="@+id/bt1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

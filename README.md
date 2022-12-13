@@ -20,7 +20,7 @@ dependencies {
 ```
 lifecycleScope.launch {
     flowPermission.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    .collect { Log.i("youxiaochen", "collect result = $it")}
+    .collect { Log.d("youxiaochen", "collect result = $it")}
 }
 
 ```

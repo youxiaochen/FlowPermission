@@ -9,21 +9,49 @@ import androidx.lifecycle.lifecycleScope
 import chen.you.flows.R
 import chen.you.flows.databinding.ActivityMainBinding
 import chen.you.flowpermission.FlowPermission
+import com.tbruyelle.rxpermissions3.RxPermissions
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    //初始化时supportFragmentManager添加FlowPermissionFragment, 须lazy来初始化或者用局部变量, 同RxPermission
     private val flowPermission by lazy { FlowPermission(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
+
+        binding.bt.setOnClickListener {
+            RxPermissions(this).requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.CAMERA)
+                .subscribe {
+                    Log.d("FlowPermission", "RxPermission1 RequestEach callback $it")
+                }
+            Observable.timer(3, TimeUnit.SECONDS).subscribe {
+                RxPermissions(this).requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.CAMERA)
+                    .subscribe {
+                        Log.d("FlowPermission", "RxPermission2 RequestEach callback $it")
+                    }
+            }
+        }
+
+        binding.bt0.setOnClickListener {
+            RxPermissions(this).request(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CAMERA)
+                .subscribe {
+                    Log.d("FlowPermission", "RxPermission RequestEach callback $it")
+                }
+        }
 
         binding.bt1.setOnClickListener {
             testRequestEach()
@@ -41,8 +69,8 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.CAMERA)
-                .onCompletion { Log.i("youxiaochen", "testRequestEach onComplete...") }
-                .collect { Log.i("youxiaochen", "collect permission = $it")}
+                .onCompletion { Log.d("FlowPermission", "testRequestEach onComplete...") }
+                .collect { Log.d("FlowPermission", "collect permission = $it")}
         }
     }
 
@@ -51,8 +79,8 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             flowPermission.request(Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .onCompletion { Log.i("youxiaochen", "testRequestEach onComplete...") }
-                .collect { Log.i("youxiaochen", "collect result = $it")}
+                .onCompletion { Log.d("FlowPermission", "testRequestEach onComplete...") }
+                .collect { Log.d("FlowPermission", "collect result = $it")}
         }
     }
 

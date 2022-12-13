@@ -17,7 +17,7 @@ class FlowPermission private constructor(private val fragmentManager: FragmentMa
         val fragment = fragmentManager.findFragmentByTag(TAG)
         if (fragment is FlowPermissionsFragment) fragment else {
             FlowPermissionsFragment().also {
-//                Log.i("youxiaochen", "FlowPermissionsFragment new Instance...")
+//                Log.d("FlowPermission", "FlowPermissionsFragment new Instance...")
                 fragmentManager.beginTransaction().add(it, TAG).commitNow()
             }
         }

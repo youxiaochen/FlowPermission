@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MainThread
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.*
@@ -28,7 +29,7 @@ class FlowPermissionsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         launcher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
-//            Log.i("youxiaochen", "onActivityResult $result")
+//            Log.d("FlowPermission", "onActivityResult $result")
             if (result.isNotEmpty()) {
                 lifecycleScope.launch {
                     val iterator = requestedPermissions.iterator()
@@ -69,11 +70,8 @@ class FlowPermissionsFragment : Fragment() {
         }
     }
 
-    internal fun isGranted(permission: String): Boolean {
-        val act = checkNotNull(activity) { "This fragment must be attached to an activity" }
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
-                || act.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
-    }
+    internal fun isGranted(permission: String): Boolean =
+        ActivityCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
 
     internal fun isRevoked(permission: String): Boolean {
         val act = checkNotNull(activity) { "This fragment must be attached to an activity" }
