@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'chen.you.library'
+    namespace 'chen.you.flowpermission'
     compileSdk 31
 
     defaultConfig {
