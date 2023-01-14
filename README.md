@@ -11,7 +11,7 @@ allprojects {
 }
 
 dependencies {
-	implementation 'com.github.youxiaochen:FlowPermission:1.0.0'
+	implementation 'com.github.youxiaochen:FlowPermission:1.2.0'
 }
 ```
 
