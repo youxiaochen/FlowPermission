@@ -1,7 +1,7 @@
 # FlowPermission
 ### 协程Flow之FlowPermission权限请求
 
-##使用
+## 使用
 ```
 allprojects {
     repositories {
@@ -15,7 +15,7 @@ dependencies {
 }
 ```
 
-#####使用
+##### 使用
 
 ```
 lifecycleScope.launch {
